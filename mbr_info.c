@@ -201,7 +201,19 @@ static void mbr_info(struct grub_msdos_partition_mbr *mbr)
 {
     int i = 0;
     unsigned char info[32];
+
+    printf("bootloader code:\n");
+
+    for(i = 0; i < 446;i++){
+	    printf("%02x ",mbr->code[i]);
+	    if(!((i + 1) % 32))
+		    printf("\n");
+     }
+
+
     memset(info,0,sizeof(info));    
+    
+    printf("\ndisk part infor:\n");
     for(i = 0;i < 4;i++){
 	printf("\tPART:%d\n",i);
         printf("\t\tflag:%02x\n",mbr->entries[i].flag);
@@ -216,7 +228,8 @@ static void mbr_info(struct grub_msdos_partition_mbr *mbr)
         printf("\t\tstart_cylinder:0x%08x\n",mbr->entries[i].start_cylinder);
         printf("\t\tend_cylinder:0x%08x\n",mbr->entries[i].end_cylinder);
     }
-	
+
+  printf("signature:%4x\n",mbr->signature);    
        return;
 }
 int main(int argc,char *argv[])
